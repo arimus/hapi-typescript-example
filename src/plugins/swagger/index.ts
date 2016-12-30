@@ -27,14 +27,6 @@ export default (): IPlugin => {
                       }
                     ],
                     documentationPath: '/docs',
-                    securityDefinitions: {
-                      'jwt': {
-                        'type': 'apiKey',
-                        'name': 'Authorization',
-                        'in': 'header'
-                      }
-                    },
-                    security: [{'jwt': []}],
                   }
                 }
               ]
