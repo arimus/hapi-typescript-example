@@ -4,35 +4,39 @@ import { IUser, UserModel } from "../../users/user";
 
 export default (): IPlugin => {
     return {
-        register: (server: Hapi.Server, options: IPluginOptions) => {
+        register: (server: Hapi.Server, options: IPluginOptions): Promise<void> => {
+          return new Promise<void>(resolve => {
             const database = options.database;
-            const serverConfig = options.serverConfigs;
+              const serverConfig = options.serverConfigs;
 
-            const validateUser = (decoded, request, cb) => {
-                database.userModel.findById(decoded.id).lean(true)
-                    .then((user: IUser) => {
-                        if (!user) {
-                            return cb(null, false);
-                        }
+              const validateUser = (decoded, request, cb) => {
+                  database.userModel.findById(decoded.id).lean(true)
+                      .then((user: IUser) => {
+                          if (!user) {
+                              return cb(null, false);
+                          }
 
-                        return cb(null, true);
-                    });
-            };
+                          return cb(null, true);
+                      });
+              };
 
-            server.register({
-                register: require('hapi-auth-jwt2')
-            }, (error) => {
-                if (error) {
-                    console.log('error', error);
-                } else {
-                    server.auth.strategy('jwt', 'jwt', false,
-                        {
-                            key: serverConfig.jwtSecret,
-                            validateFunc: validateUser,
-                            verifyOptions: { algorithms: ['HS256'] }
-                        });
-                }
-            });
+            console.log('registering jwt2');
+            server.register(require('hapi-auth-jwt2'), (error) => {
+                console.log('registered jwt2');
+                  if (error) {
+                      console.log('error', error);
+                  } else {
+                    console.log('registering jwt auth strategy');
+                      server.auth.strategy('jwt', 'jwt', true, {
+                          key: serverConfig.jwtSecret,
+                          validateFunc: validateUser,
+                          verifyOptions: { algorithms: ['HS256'] }
+                      });
+                  }
+
+                  resolve();
+              });
+          });
         },
         info: () => {
             return {

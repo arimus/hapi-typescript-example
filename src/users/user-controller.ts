@@ -51,10 +51,10 @@ export default class UserController {
     }
 
     public createUser(request: Hapi.Request, reply: Hapi.IReply) {
-        const user: IUser = request.payload;
+        const user: IUser = <IUser>request.payload;
 
         this.database.userModel.create(user).then((user) => {
-            const token = this.generateToken(user);
+            const token = this.generateToken(<IUser>user);
             reply({ token: token }).code(201);
         })
             .catch((error) => {
@@ -64,7 +64,7 @@ export default class UserController {
 
     public updateUser(request: Hapi.Request, reply: Hapi.IReply) {
         const id = request.auth.credentials.id;
-        const user: IUser = request.payload;
+        const user: IUser = <IUser>request.payload;
 
         this.database.userModel.findByIdAndUpdate(id, { $set: user }, { new: true })
             .then((user) => {
