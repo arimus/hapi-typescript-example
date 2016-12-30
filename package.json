@@ -23,6 +23,7 @@
     "watch": "nodemon --watch build/src build/src/index.js"
   },
   "dependencies": {
+    "@types/acl": "^0.4.32",
     "@types/async": "^2.0.37",
     "@types/bcryptjs": "^2.3.30",
     "@types/boom": "0.0.32",
