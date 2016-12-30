@@ -20,21 +20,18 @@ export default (): IPlugin => {
                       });
               };
 
-            console.log('registering jwt2');
             server.register(require('hapi-auth-jwt2'), (error) => {
-                console.log('registered jwt2');
-                  if (error) {
-                      console.log('error', error);
-                  } else {
-                    console.log('registering jwt auth strategy');
-                      server.auth.strategy('jwt', 'jwt', true, {
-                          key: serverConfig.jwtSecret,
-                          validateFunc: validateUser,
-                          verifyOptions: { algorithms: ['HS256'] }
-                      });
-                  }
+                if (error) {
+                    console.log('error', error);
+                } else {
+                    server.auth.strategy('jwt', 'jwt', true, {
+                        key: serverConfig.jwtSecret,
+                        validateFunc: validateUser,
+                        verifyOptions: { algorithms: ['HS256'] }
+                    });
+                }
 
-                  resolve();
+                resolve();
               });
           });
         },

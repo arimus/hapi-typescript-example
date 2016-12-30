@@ -10,21 +10,21 @@ export function init(server: Hapi.Server, configs: IServerConfigurations, databa
     // create a default admin user if it doesn't already exist
     UserModel.findOne({email: 'admin@example.com'}).then((user) => {
       if (!!user) {
-        console.log('admin user exists');
+        //console.log('admin user exists');
       } else {
-        console.log('creating admin user');
+        console.log('Creating default user');
 
         UserModel.create([{
           email: 'admin@example.com',
           password: 'admin',
           name: 'admin'
         }]).then((user) => {
-          console.log('created admin user');
+          console.log('Created default user');
         }).catch((err) => {
-          console.error('error creating admin user', err);
+          console.error('Error creating default user', err);
         });
       }
     }).catch((err) => {
-      console.error('error looking up admin user', err);
+      console.error('Error looking up default user', err);
     });
 }

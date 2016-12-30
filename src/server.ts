@@ -32,13 +32,12 @@ export function init(configs: IServerConfigurations, database: IDatabase): Promi
     });
 
     Promise.all(pluginPromises).then(() => {
-      console.log('all plugins loaded');
+      console.log('Plugins loaded');
 
       //Init Features
-      console.log('loading routes');
       Tasks.init(server, configs, database);
       Users.init(server, configs, database);
-      console.log('loaded routes');
+      console.log('Routes loaded');
 
       resolve(server);
     });
