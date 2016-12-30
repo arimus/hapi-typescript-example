@@ -100,6 +100,7 @@ export default function (server: Hapi.Server, serverConfigs: IServerConfiguratio
             validate: {
                 payload: UserValidator.createUserModel
             },
+            auth: false,
             plugins: {
                 'hapi-swagger': {
                     responses: {
@@ -122,6 +123,7 @@ export default function (server: Hapi.Server, serverConfigs: IServerConfiguratio
             validate: {
                 payload: UserValidator.loginUserModel
             },
+            auth: false,
             plugins: {
                 'hapi-swagger': {
                     responses: {
